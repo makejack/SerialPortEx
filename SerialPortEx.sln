@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortEx", "SerialPortEx\SerialPortEx.csproj", "{BE085AFE-7DA0-49B4-952C-06231989D8D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{C991D670-B512-417D-893F-49C13E1E59E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BE085AFE-7DA0-49B4-952C-06231989D8D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE085AFE-7DA0-49B4-952C-06231989D8D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE085AFE-7DA0-49B4-952C-06231989D8D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C991D670-B512-417D-893F-49C13E1E59E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C991D670-B512-417D-893F-49C13E1E59E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C991D670-B512-417D-893F-49C13E1E59E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C991D670-B512-417D-893F-49C13E1E59E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
