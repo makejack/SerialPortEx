@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -6,6 +7,35 @@ namespace SerialPortEx
 {
     public class SerialPort
     {
+
+        public SerialPort(bool autoClose = false)
+        {
+            if (autoClose)
+            {
+                SearchPort searchPort = new SearchPort();
+                searchPort.PortChange += OnPortChange;
+                searchPort.Setup();
+            }
+        }
+
+        private void OnPortChange(List<string> portNames)
+        {
+            if (IsOpen)
+            {
+                bool contains = portNames.Contains(PortName);
+                if (!contains)
+                {
+                    try
+                    {
+                        Close();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 端口编号
@@ -89,6 +119,8 @@ namespace SerialPortEx
                 Setioctl();
 
                 SetDataReceived();
+
+                SerialPortChange?.Invoke(this);
             }
             else
             {
@@ -136,18 +168,13 @@ namespace SerialPortEx
         /// </summary>
         public void Close()
         {
-            try
+            PortAPI.ErrorCodes code = Close(Port);
+            if (code != PortAPI.ErrorCodes.SIO_OK)
             {
-                PortAPI.ErrorCodes code = Close(Port);
-                if (code != PortAPI.ErrorCodes.SIO_OK)
-                {
-                    throw new Exception(GetErrorStr(code));
-                }
+                throw new Exception(GetErrorStr(code));
             }
-            finally
-            {
-                IsOpen = false;
-            }
+            IsOpen = false;
+            SerialPortChange?.Invoke(this);
         }
 
         /// <summary>
@@ -459,10 +486,6 @@ namespace SerialPortEx
         /// <returns></returns>
         public static PortAPI.ErrorCodes SetDataReceived(int port, PortAPI.DataReceivedEventHandler func, int len = 1)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException();
-            }
             int ret = PortAPI.sio_cnt_irq(port, func, len);
             return (PortAPI.ErrorCodes)ret;
         }
@@ -514,6 +537,13 @@ namespace SerialPortEx
                 }
             }
         }
+
+        public delegate void SerialPortChangeEventHandler(SerialPort sender);
+
+        /// <summary>
+        /// 端口变化事件
+        /// </summary>
+        public event SerialPortChangeEventHandler SerialPortChange;
 
     }
 }
